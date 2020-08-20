@@ -11,7 +11,7 @@ var Server = /** @class */ (function () {
         return new Server(port);
     };
     Server.prototype.publicFolder = function () {
-        var publicPath = path.resolve(__dirname, '../public');
+        var publicPath = path.resolve(__dirname, "../public");
         this.app.use(express.static(publicPath));
     };
     Server.prototype.start = function (callback) {

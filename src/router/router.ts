@@ -61,4 +61,41 @@ router.get('/productos/:id', (req: Request, res: Response) => {
     })
 })
 
+router.post('/productos', (req: Request, res: Response) => {
+
+    const {body} = req;
+
+    let producto = {
+        tipo: Number(body.tipo),
+        modelo: body.modelo,
+        marca: body.marca,
+        descripcion: body.descripcion || '',
+        precio: Number(body.precio),
+        cantidad: Number(body.cantidad),
+        meses: Number(body.meses)
+    }
+
+    // const escapedId = MySQL.instance.cnn.escape(id);
+
+    const sql = `
+        INSERT INTO PRODUCTO(tipoProducto, modelo, marca, descripcion,precio, cantidadInv, mesesGarantia)        
+        VALUES(${producto.tipo},"${producto.modelo}","${producto.marca}","${producto.descripcion}",${producto.precio},${producto.cantidad},${producto.meses})
+    `
+
+    MySQL.ejecutarQuery(sql, (err: any, producto: any) => {
+        if(err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            producto
+        })
+    })
+
+})
+
 export default router;
